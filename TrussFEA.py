@@ -343,39 +343,39 @@ def show_truss(q_sol, elem_num, elems_info, nodes_info):
 
 #---------------------------------------------------------------------
     # getting element dofs
-    e_dofs = []
-    for i in range(len(e_nodes)):
-        e_dofs.append(2*e_nodes[i] - 1)
-        e_dofs.append(2*e_nodes[i])
+        e_dofs = []
+        for i in range(len(e_nodes)):
+            e_dofs.append(2*e_nodes[i] - 1)
+            e_dofs.append(2*e_nodes[i])
         
 #---------------------------------------------------------------------
-    # computing node length
+# computing node length
 
-    node1_info, node2_info = nodes_info[e_nodes[0]-1], nodes_info[e_nodes[1]-1]
-    node1_x, node1_y, node2_x, node2_y = node1_info[1], node1_info[2], node2_info[1], node2_info[2]
-    le_final = ((node2_x - node1_x)**2 + (node2_y - node1_y)**2)**0.5 
-    le_final = float(le_final)
+        node1_info, node2_info = nodes_info[e_nodes[0]-1], nodes_info[e_nodes[1]-1]
+        node1_x, node1_y, node2_x, node2_y = node1_info[1], node1_info[2], node2_info[1], node2_info[2]
+        le_final = ((node2_x - node1_x)**2 + (node2_y - node1_y)**2)**0.5 
+        le_final = float(le_final)
 
 #---------------------------------------------------------------------
     # getting element nodal displacements
-    qe_final = []
-    for dof in e_dofs:
-        qe_final.append(q_sol[dof - 1])
-        #print(dof, q_sol[dof - 1])
+        qe_final = []
+        for dof in e_dofs:
+            qe_final.append(q_sol[dof - 1])
+            #print(dof, q_sol[dof - 1])
 
 #---------------------------------------------------------------------
     # deformed_coord = initial_coord + deformation, qe
-    x_undef_range, y_undef_range = [node1_x, node2_x], [node1_y, node2_y]
-    x_def_range, y_def_range = [node1_x+float(qe_final[0]), node2_x+float(qe_final[2])], [node1_y+float(qe_final[1]), node2_y+float(qe_final[3])]
+        x_undef_range, y_undef_range = [node1_x, node2_x], [node1_y, node2_y]
+        x_def_range, y_def_range = [node1_x+float(qe_final[0]), node2_x+float(qe_final[2])], [node1_y+float(qe_final[1]), node2_y+float(qe_final[3])]
 
 #---------------------------------------------------------------------
     # Plots
-    if e != elem_num-1:
-        tplt.plot(x_undef_range, y_undef_range, 'g--')
-        tplt.plot(x_def_range, y_def_range, color='black')
-    else:
-        tplt.plot(x_undef_range, y_undef_range, 'g--', label='Undeformed')
-        tplt.plot(x_def_range, y_def_range, color='black', label='Deformed')
+        if e != elem_num-1:
+            tplt.plot(x_undef_range, y_undef_range, 'g--')
+            tplt.plot(x_def_range, y_def_range, color='black')
+        else:
+            tplt.plot(x_undef_range, y_undef_range, 'g--', label='Undeformed')
+            tplt.plot(x_def_range, y_def_range, color='black', label='Deformed')
 
     tplt.set(xlabel='x, mm', ylabel='y, mm')
     tplt.set_title('Truss Deformation')
@@ -443,7 +443,7 @@ def ReportResults(fname):
         f.write("\nAxial stress for element " + str(i) + " = " + str(line))
 
 
-readInputs("Project2.Bonus.txt", nodes)
+readInputs("Truss1.txt", nodes)
 
 assembleGlobalStiffnessMatrix()
 
@@ -456,7 +456,7 @@ for i in range(numElems):
     calulateLocalForce(i+1)
 
 
-ReportResults("Project2.Bonus.txt")
+ReportResults("Truss1.txt")
 
 
 
